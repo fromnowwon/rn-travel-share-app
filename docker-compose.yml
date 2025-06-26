@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_DATABASE: travel-share-db-container
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user1234
+    ports:
+      - "3308:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: travel-share-backend-container
+    restart: always
+    ports:
+      - "4000:4000"
+    environment:
+      DB_HOST: db
+      DB_USER: user
+      DB_PASSWORD: user1234
+      DB_NAME: travel-share-db
+      NODE_ENV: development
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/usr/src/app
+    command: npm run dev
+
+volumes:
+  db-data:

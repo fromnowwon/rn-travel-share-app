@@ -4,9 +4,10 @@ services:
   db:
     image: mysql:8.0
     restart: always
+    container_name: travel-share-db-container
     environment:
       MYSQL_ROOT_PASSWORD: root1234
-      MYSQL_DATABASE: travel-share-db-container
+      MYSQL_DATABASE: travel-share-db
       MYSQL_USER: user
       MYSQL_PASSWORD: user1234
     ports:
